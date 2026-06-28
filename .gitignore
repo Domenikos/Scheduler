@@ -1,0 +1,11 @@
+# Ignore log files
+*.log
+
+# Ignore temp and cache folders
+temp/
+__pycache__/
+
+# Ignore selected files
+Student_JAA.py
+Electrical_Engineering_Schedule_backup.py
+
