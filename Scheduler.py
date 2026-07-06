@@ -15,186 +15,6 @@ Features:
 
 # from collections import defaultdict
 
-# Electrical Engineering Course Database
-# Course Database Format: 'COURSE_CODE': (Credit_Hours, Term_Restriction, [Prereqs], [Co-reqs])
-# Term Restrictions: 'Any', 'Fall', 'Spring'
-EE_COURSE_DB = {
-    # Semester 1
-    "ENGL 1013": (3, "Any", [], []),
-    "MATH 2914": (4, "Any", [], []),
-    "CHEM 2124": (4, "Any", [], ["CHEM 2120"]),  # Lecture
-    "CHEM 2120": (0, "Any", [], ["CHEM 2124"]),  # Lab
-    "TECH 1001": (1, "Any", [], []),
-    "ELEG 1011": (1, "Any", [], []),
-    "Fine Arts I": (3, "Any", [], []),
-    # Semester 2
-    "ENGL 1023": (3, "Any", ["ENGL 1013"], []),
-    "MATH 2924": (4, "Any", ["MATH 2914"], []),
-    "COMS 1011": (1, "Any", [], ["COMS 1013"]),  # Lab (no prereq, just co-req)
-    "COMS 1013": (3, "Any", [], ["COMS 1011"]),  # Lecture (no prereq, just co-req)
-    "ELEG 2134": (4, "Any", ["ELEG 1011"], ["ELEG 2130"]),
-    "ELEG 2130": (0, "Any", ["ELEG 1011"], ["ELEG 2134"]),  # Lab
-    # Semester 3
-    "PHYS 2114": (4, "Any", ["MATH 2924"], ["PHYS 2000"]),  # Lecture
-    "PHYS 2000": (0, "Any", ["MATH 2924"], ["PHYS 2114"]),  # Lab
-    "MATH 3243": (3, "Any", ["MATH 2924"], []),
-    "ELEG 2103": (3, "Any", ["MATH 2924"], []),
-    "COMS 2203": (3, "Any", ["COMS 1013"], []),
-    "ELEG 3133": (3, "Any", ["ELEG 2134", "COMS 1013"], []),
-    # Semester 4
-    "PHYS 2124": (4, "Any", ["PHYS 2114"], []),
-    "PHYS 2010": (0, "Any", ["PHYS 2114"], ["PHYS 2124"]),  # Lab
-    "MATH 2934": (4, "Any", ["MATH 2924"], []),
-    "ELEG 2111": (1, "Any", ["ELEG 2103"], ["ELEG 2113"]),  # Lab
-    "ELEG 2113": (3, "Any", ["ELEG 2103", "MATH 3243"], ["ELEG 2111"]),
-    "STAT 3153": (3, "Any", ["MATH 2924"], []),
-    # Semester 5
-    "Tech Elective 1": (3, "Any", [], []),
-    "ELEG Elective 1": (3, "Any", [], []),
-    "ELEG/MCEG 3003": (3, "Any", ["MATH 3243", "ELEG 2113"], []),
-    "ELEG 3103": (3, "Fall", ["ELEG 2113"], []),
-    "ELEG 3153": (3, "Fall", ["ELEG 2113"], []),
-    # Semester 6
-    "MATH 2703": (3, "Any", ["MATH 2914"], []),
-    "ELEG 3143": (3, "Spring", ["MATH 2934", "PHYS 2124"], []),
-    "ELEG 3123": (3, "Spring", ["ELEG 2113", "MATH 3243"], []),
-    "ELEG 4103": (3, "Spring", ["ELEG 3103"], []),
-    "ELEG/MCEG 4202": (2, "Any", ["ELEG/MCEG 3003"], []),
-    # Semester 7
-    "Social Science": (3, "Any", [], []),
-    "ELEG 4143": (3, "Fall", ["ELEG 3123"], []),
-    "ELEG 4113": (3, "Fall", ["ELEG 3123"], []),
-    "ELEG 4303": (3, "Any", ["ELEG/MCEG 3003", "ELEG 3123"], []),
-    "ELEG 4191": (1, "Any", ["ELEG/MCEG 4202"], []),
-    "US History/Gov": (3, "Any", [], []),
-    # Semester 8
-    "ELEG Elective 2": (3, "Any", [], []),
-    "Tech Elective 2": (3, "Any", [], []),
-    "Fine Arts II": (3, "Any", [], []),
-    "ELEG 4122": (2, "Spring", ["ELEG 4103", "ELEG 4113"], []),
-    "ELEG 4192": (2, "Any", ["ELEG 4191"], []),
-}
-
-# Computer Engineering Course Database
-CMPE_COURSE_DB = {
-    # Semester 1
-    "ENGL 1013": (3, "Any", [], []),
-    "MATH 2914": (4, "Any", [], []),
-    "CHEM 2124": (4, "Any", [], ["CHEM 2120"]),  # Lecture
-    "CHEM 2120": (0, "Any", [], ["CHEM 2124"]),  # Lab
-    "TECH 1001": (1, "Any", [], []),
-    "ELEG 1011": (1, "Any", [], []),
-    "Fine Arts I": (3, "Any", [], []),
-    # Semester 2
-    "ENGL 1023": (3, "Any", ["ENGL 1013"], []),
-    "MATH 2924": (4, "Any", ["MATH 2914"], []),
-    "COMS 1011": (1, "Any", [], ["COMS 1013"]),  # Lab (no prereq, just co-req)
-    "COMS 1013": (3, "Any", [], ["COMS 1011"]),  # Lecture (no prereq, just co-req)
-    "ELEG 2134": (4, "Any", ["ELEG 1011"], ["ELEG 2130"]),
-    "ELEG 2130": (0, "Any", ["ELEG 1011"], ["ELEG 2134"]),  # Lab
-    # Semester 3
-    "PHYS 2114": (4, "Any", ["MATH 2924"], ["PHYS 2000"]),  # Lecture
-    "PHYS 2000": (0, "Any", ["MATH 2924"], ["PHYS 2114"]),  # Lab
-    "MATH 3243": (3, "Any", ["MATH 2924"], []),
-    "ELEG 2103": (3, "Any", ["MATH 2924"], []),
-    "COMS 2203": (3, "Any", ["COMS 1013"], []),
-    "ELEG 3133": (3, "Any", ["ELEG 2134", "COMS 1013"], []),
-    # Semester 4
-    "PHYS 2124": (4, "Any", ["PHYS 2114"], []),
-    "PHYS 2010": (0, "Any", ["PHYS 2114"], ["PHYS 2124"]),  # Lab
-    "MATH 2934": (4, "Any", ["MATH 2924"], []),
-    "ELEG 2111": (1, "Any", ["ELEG 2103"], ["ELEG 2113"]),  # Lab
-    "ELEG 2113": (3, "Any", ["ELEG 2103", "MATH 3243"], ["ELEG 2111"]),
-    "STAT 3153": (3, "Any", ["MATH 2924"], []),
-    # Semester 5
-    "ELEG/MCEG 3003": (3, "Any", ["MATH 3243", "ELEG 2113"], []),
-    "ELEG 3103": (3, "Fall", ["ELEG 2113"], []),
-    "Fine Arts II": (3, "Any", [], []),
-    "MATH 2703": (3, "Any", ["MATH 2914"], []),
-    "Social Science": (3, "Any", [], []),
-    # Semester 6
-    "ELEG 3143": (3, "Spring", ["MATH 2934", "PHYS 2124"], []),
-    "ELEG 3123": (3, "Spring", ["ELEG 2113", "MATH 3243"], []),
-    "ELEG 4103": (3, "Spring", ["ELEG 3103"], []),
-    "ELEG/MCEG 4202": (2, "Any", ["ELEG/MCEG 3003"], []),
-    "COMS 2213": (3, "Any", ["COMS 2203", "MATH 2703"], []),  # Data Structures
-    "COMS 2223": (3, "Any", ["COMS 2203", "MATH 2703"], []),  # Computer Organization
-    # Semester 7
-    "CMPE 4191": (1, "Any", ["ELEG/MCEG 4202"], []),
-    "ELEG 4303": (3, "Any", ["ELEG/MCEG 3003", "ELEG 3123"], []),
-    "ELEG 4113": (3, "Fall", ["ELEG 3123"], []),
-    "ELEG 4143": (3, "Fall", ["ELEG 3123"], []),
-    "ELEG 4133": (3, "Fall", ["ELEG 2134"], []),
-    # Semester 8
-    "CMPE 4192": (2, "Any", ["CMPE 4191"], []),
-    "COMS 3703": (3, "Any", ["COMS 2213"], []),  # Operating Systems
-    "ELEG 4122": (2, "Spring", ["ELEG 4103", "ELEG 4113"], []),
-    "ELEG Elective 1": (3, "Any", [], []),
-    "US History/Gov": (3, "Any", [], []),
-}
-
-# Electrical Engineering with Biomedical Option Course Database
-# Optional Biomedical Engineering courses beyond those required for the BS degree
-# are not included in this version of the scheduler.
-BME_COURSE_DB = {
-    # Semester 1
-    "BIOL 1114": (4, "Any", [], []),
-    "ENGL 1013": (3, "Any", [], []),
-    "MATH 2914": (4, "Any", [], []),
-    "CHEM 2124": (4, "Any", [], ["CHEM 2120"]),  # Lecture
-    "CHEM 2120": (0, "Any", [], ["CHEM 2124"]),  # Lab
-    "TECH 1001": (1, "Any", [], []),
-    "ELEG 1011": (1, "Any", [], []),
-    # Semester 2
-    "BIOL 2014": (4, "Any", [], []),
-    "CHEM 2134": (4, "Any", ["CHEM 2124"], ["CHEM 2130"]),  # Lecture
-    "CHEM 2130": (0, "Any", ["CHEM 2124"], ["CHEM 2134"]),  # Lab
-    "ENGL 1023": (3, "Any", ["ENGL 1013"], []),
-    "MATH 2924": (4, "Any", ["MATH 2914"], []),
-    # Semester 3
-    "PHYS 2114": (4, "Any", ["MATH 2924"], ["PHYS 2000"]),  # Lecture
-    "PHYS 2000": (0, "Any", ["MATH 2924"], ["PHYS 2114"]),  # Lab
-    "MATH 3243": (3, "Any", ["MATH 2924"], []),
-    "ELEG 2103": (3, "Any", ["MATH 2924"], []),
-    "CHEM 3254": (4, "Any", ["CHEM 2134"], ["CHEM 3250"]),  # Lecture
-    "CHEM 3250": (0, "Any", ["CHEM 2134"], ["CHEM 3254"]),  # Lab
-    # Semester 4
-    "ELEG 2111": (1, "Any", ["ELEG 2103"], ["ELEG 2113"]),  # Lab
-    "ELEG 2113": (3, "Any", ["ELEG 2103", "MATH 3243"], ["ELEG 2111"]),
-    "COMS 1011": (1, "Any", [], ["COMS 1013"]),  # Lab (no prereq, just co-req)
-    "COMS 1013": (3, "Any", [], ["COMS 1011"]),  # Lecture (no prereq, just co-req
-    "SOC 1003": (3, "Any", [], []),
-    "US History/Gov": (3, "Any", [], []),
-    # Semester 5
-    "ELEG 3103": (3, "Fall", ["ELEG 2113"], []),
-    "MATH 2703": (3, "Any", ["MATH 2914"], []),
-    "MATH 2934": (4, "Any", ["MATH 2924"], []),
-    "PHYS 2124": (4, "Any", ["PHYS 2114"], []),
-    "PHYS 2010": (0, "Any", ["PHYS 2114"], ["PHYS 2124"]),  # Lab
-    # Semester 6
-    "ELEG 3143": (3, "Spring", ["MATH 2934", "PHYS 2124"], []),
-    "ELEG 3123": (3, "Spring", ["ELEG 2113", "MATH 3243"], []),
-    "ELEG 4103": (3, "Spring", ["ELEG 3103"], []),
-    "ELEG 4122": (2, "Spring", ["ELEG 4103", "ELEG 4113"], []),
-    "ELEG/MCEG 4202": (2, "Any", ["ELEG/MCEG 3003"], []),
-    "STAT 3153": (3, "Any", ["MATH 2924"], []),
-    # Semester 7
-    "ELEG 2134": (4, "Any", ["ELEG 1011"], ["ELEG 2130"]),
-    "ELEG 2130": (0, "Any", ["ELEG 1011"], ["ELEG 2134"]),  # Lab
-    "ELEG/MCEG 3003": (3, "Any", ["MATH 3243", "ELEG 2113"], []),
-    "ELEG 4113": (3, "Fall", ["ELEG 3123"], []),
-    "ELEG 4143": (3, "Fall", ["ELEG 3123"], []),
-    "ELEG 4191": (1, "Any", ["ELEG/MCEG 4202"], []),
-    "PSY 2003": (3, "Any", [], []),
-    # Semester 8
-    "BIOL 3074": (4, "Any", ["BIOL 1114", "BIOL 2014"], []),
-    "ELEG 3133": (3, "Any", ["ELEG 2134", "COMS 1013"], []),
-    "ELEG 4303": (3, "Any", ["ELEG/MCEG 3003", "ELEG 3123"], []),
-    "ELEG 4192": (2, "Any", ["ELEG 4191"], []),
-    "Fine Arts II": (3, "Any", [], []),
-}
-
-
 class Scheduler:  # Class Scheduler
     """Class-based planner for graduation pathways."""
 
@@ -202,6 +22,29 @@ class Scheduler:  # Class Scheduler
         self.course_db = course_db if course_db is not None else EE_COURSE_DB
         self.max_hours = max_hours
         self.max_iterations = max_iterations
+        self.validate_course_db_references()
+
+    def validate_course_db_references(self):
+        """Ensure every prereq/coreq in course_db points to a valid course key."""
+        invalid_refs = []
+        valid_courses = set(self.course_db.keys())
+
+        for course, (_, _, prereqs, coreqs) in self.course_db.items():
+            for prereq in prereqs:
+                if prereq not in valid_courses:
+                    invalid_refs.append((course, "prereq", prereq))
+
+            for coreq in coreqs:
+                if coreq not in valid_courses:
+                    invalid_refs.append((course, "coreq", coreq))
+
+        if invalid_refs:
+            print("\nInvalid prerequisites/corequisites found in course_db:")
+            for course, ref_type, invalid_course in invalid_refs:
+                print(
+                    f"  ❌ Course '{course}' has invalid {ref_type}: '{invalid_course}'"
+                )
+            raise SystemExit(1)
 
     def validate_constraints(self, completed_courses, remaining_courses):
         """
@@ -210,7 +53,7 @@ class Scheduler:  # Class Scheduler
         """
         issues = []
 
-        for course, (restriction, prereqs, coreqs) in remaining_courses.items():
+        for course, (_, restriction, prereqs, coreqs) in remaining_courses.items():
             unmet_prereqs = [
                 p for p in prereqs if p not in completed_courses and p in self.course_db
             ]
@@ -333,27 +176,23 @@ class Scheduler:  # Class Scheduler
 # --------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    from EE_COURSE_DB import EE_COURSE_DB
     student_history = {
         "ENGL 1013",
         "MATH 2914",
         "CHEM 2124",
-        "TECH 1001",
+        "STEM/TECH 1001",
         "ELEG 1011",
         "Fine Arts I",
         "ENGL 1023",
         "MATH 2924",
-        "COMS 1011",
         "COMS 1013",
+        "COMS 1011",
     }
 
     COURSE_DB = EE_COURSE_DB  # Use the Electrical Engineering course database for this simulation
     print("\n" + "=" * 60)
-    if COURSE_DB == EE_COURSE_DB:
-        print("ATU Electrical Engineering - Graduation Pathway Optimizer")
-    elif COURSE_DB == CMPE_COURSE_DB:
-        print("ATU Computer Engineering - Graduation Pathway Optimizer")
-    elif COURSE_DB == BME_COURSE_DB:
-        print("ATU Biomedical Engineering Option - Graduation Pathway Optimizer")
+    print("ATU Electrical Engineering - Graduation Pathway Optimizer")
     print("=" * 60)
     print(f"\n📚 Student Status: {len(student_history)} courses completed")
     print(f"   Total Courses in Degree: {len(COURSE_DB)}")

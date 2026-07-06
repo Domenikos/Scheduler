@@ -1,6 +1,7 @@
 """Generate an optimized graduation schedule for a Computer Engineering student."""
 
-from Scheduler import CMPE_COURSE_DB, Scheduler
+from Scheduler import Scheduler
+from CMPE_COURSE_DB import CMPE_COURSE_DB
 
 # Use the Computer Engineering course database for this simulation
 
@@ -8,16 +9,25 @@ student_history = {
     "ENGL 1013",
     "MATH 2914",
     "CHEM 2124",
-    "TECH 1001",
+    "CHEM 2120",
+    "STEM/TECH 1001",
     "ELEG 1011",
     "Fine Arts I",
     "ENGL 1023",
     "MATH 2924",
     "COMS 1011",
     "COMS 1013",
+    "MATH 1113"
 }
 
+MAX_HOURS = 18  # Maximum credit hours per semester
+FALL_START = True  # Start scheduling from Fall semester; if False, start from Spring semester
+
+# ========== Should not be necessary to make changes below this line ======================
 COURSE_DB = CMPE_COURSE_DB  # Use the Computer Engineering course database
+# Remove courses in student_history that are not in the course database like MATH 1113
+student_history = {course for course in student_history if course in COURSE_DB}
+# print("remaining courses after filtering student history:", student_history)
 
 print("\n" + "=" * 60)
 print("ATU Computer Engineering - Graduation Pathway Optimizer")
@@ -26,9 +36,9 @@ print(f"\n📚 Student Status: {len(student_history)} courses completed")
 print(f"   Total Courses in Degree: {len(COURSE_DB)}")
 print(f"   Remaining: {len(COURSE_DB) - len(student_history)} courses\n")
 
-scheduler = Scheduler(course_db=COURSE_DB, max_hours=18, max_iterations=20)
+scheduler = Scheduler(course_db=COURSE_DB, max_hours=MAX_HOURS, max_iterations=20)
 optimized_plan = scheduler.generate_schedule(
-    student_history, start_semester_is_fall=True
+    student_history, start_semester_is_fall=FALL_START
 )
 print("=" * 60)
 print("GENERATED SCHEDULE")

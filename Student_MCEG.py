@@ -1,9 +1,9 @@
-"""Generate an optimized graduation schedule for a BME Option student."""
+"""Generate an optimized graduation schedule for a Mechanical Engineering student."""
 
 from Scheduler import Scheduler
-from BME_COURSE_DB import BME_COURSE_DB
+from MCEG_COURSE_DB import MCEG_COURSE_DB
 
-# Use the Biological Engineering course database for this simulation
+# Use the Mechanical Engineering course database for this simulation
 
 student_history = {
     "ENGL 1013",
@@ -11,7 +11,6 @@ student_history = {
     "CHEM 2124",
     "CHEM 2120",
     "STEM/TECH 1001",
-    "ELEG 1011",
     "Fine Arts I",
     "ENGL 1023",
     "MATH 2924",
@@ -19,37 +18,42 @@ student_history = {
     "COMS 1013",
 }
 
+# Use either the Mechanical Engineering courses with Chemistry option or Physics option
+CHEM_II_OPTION = True  # Set to True to use CHEM II option, False to use PHYS II option
 MAX_HOURS = 18  # Maximum credit hours per semester
 FALL_START = True  # Start scheduling from Fall semester; if False, start from Spring semester
-SUPPLEMENTAL_COURSES = True  # Set to True to include supplemental courses, False to exclude them
 
 # ========== Should not be necessary to make changes below this line ======================
-COURSE_DB = BME_COURSE_DB  # Use the Biological Engineering Option
+COURSE_DB = MCEG_COURSE_DB  # Use the Mechanical Engineering courses without Chemistry or Physics option
 # Remove courses in student_history that are not in the course database like MATH 1113
 student_history = {course for course in student_history if course in COURSE_DB}
-# Supplemental courses for Biological Engineering Option
-BME_SUP_COURSE_DB = {
+# print("remaining courses after filtering student history:", student_history)
+# Add the CHEM II or PHYS II course to the course database based on the option selected
+# Additional courses for Mechanical Engineering with Physics option
+MCEG_PHYS_COURSE_DB = {
     # Semester 3
-    "BIOL 3034": (4, "Any", ["BIOL 1114"], []),  # Genetics
-    # Semester 4
-    "CHEM 3260": (0, "Any", ["CHEM 3254"], ["CHEM 3264"]),  # Lab
-    "CHEM 3264": (4, "Any", ["CHEM 3254"], ["CHEM 3260"]),
-    # Semester 5
-    "CHEM 3340": (4, "Any", ["BIOL 1114", "CHEM 3264"], ["CHEM 3344"]),  # Biochemistry Lab
-    "CHEM 3344": (4, "Any", ["BIOL 1114", "CHEM 3264"], ["CHEM 3340"]),  # Biochemistry
-    # Semester 6
-    "BIOL 4033": (4, "Any", ["BIOL 1114", "BIOL 3034"], []),  # Cell Biology
+    "PHYS 2124": (4, "Any", ["PHYS 2114"], ["PHYS 2010"]),  # Lecture
+    "PHYS 2010": (0, "Any", ["PHYS 2114"], ["PHYS 2124"]),  # Lab
 }
-if SUPPLEMENTAL_COURSES:
-    COURSE_DB.update(BME_SUP_COURSE_DB)
+# Additional courses for Mechanical Engineering with Chemistry option
+MCEG_CHEM_COURSE_DB = {
+    # Semester 3
+    "CHEM 2134": (4, "Any", ["CHEM 2124"], ["CHEM 2130"]),  # Lecture
+    "CHEM 2130": (0, "Any", ["CHEM 2124"], ["CHEM 2134"]),  # Lab
+}
+if CHEM_II_OPTION:
+    COURSE_DB.update(MCEG_CHEM_COURSE_DB)
+else:
+    COURSE_DB.update(MCEG_PHYS_COURSE_DB)
 
 print("\n" + "=" * 60)
-print("ATU Biological Engineering Option - Graduation Pathway Optimizer")
+print("ATU Mechanical Engineering - Graduation Pathway Optimizer")
 print("=" * 60)
 print(f"\n📚 Student Status: {len(student_history)} courses completed")
 print(f"   Total Courses in Degree: {len(COURSE_DB)}")
 print(f"   Remaining: {len(COURSE_DB) - len(student_history)} courses\n")
 
+# print(f"Course Database: {COURSE_DB} courses")
 scheduler = Scheduler(course_db=COURSE_DB, max_hours=MAX_HOURS, max_iterations=20)
 optimized_plan = scheduler.generate_schedule(
     student_history, start_semester_is_fall=FALL_START

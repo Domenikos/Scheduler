@@ -14,6 +14,8 @@ The project generates semester-by-semester schedules based on completed coursewo
   - Electrical Engineering
   - Computer Engineering
   - Electrical Engineering with Biomedical Option
+  - Mechanical Engineering with Chemistry II or Physics II
+  - Additional majors may be added
 - Enforces prerequisite and co-requisite rules automatically.
 - Accounts for course seasonality (`Any`, `Fall`, `Spring`).
 - Applies per-semester hour limits to keep plans realistic.
@@ -33,6 +35,8 @@ Can be modified for any major by adding its curriculum database.
 - Create a file for the student using one of the example files, for example Student_EE.py
 - Modify the student_history set in the example file
 - Change the max_hours in the call to Scheduler for the maximum number of hours per semester.
+- Set FALL_START to True to begin in the Fall or False for a Spring start.
+- Add a new course database for an additional major.  Use one of the exiting databases (EE_COURSE_DB.py) as a template.
 
 
 ### Prerequisites
