@@ -1,10 +1,14 @@
-""" Generate an optimized graduation schedule for an Electrical Engineering student. """
+"""Generate an optimized graduation schedule for an Electrical Engineering student
+with a Nuclear Technology Option."""
 
 from Scheduler import Scheduler
 from EE_COURSE_DB import EE_COURSE_DB
 
 # Use the Electrical Engineering course database for this simulation
 
+student_history = {}    # Set of courses the student has already completed.
+
+"""
 student_history = {
     "ENGL 1013",
     "MATH 2914",
@@ -19,15 +23,32 @@ student_history = {
     "COMS 1013",
     "MATH 1113",
 }
+"""
 
 MAX_HOURS = 18  # Maximum credit hours per semester
-FALL_START = True  # Start scheduling from Fall semester; if False, start from Spring semester
+FALL_START = (
+    True  # Start scheduling from Fall semester; if False, start from Spring semester
+)
+NUCLEAR_OPTION = True  # Set to True to include Nuclear Technology Option courses, False to exclude them
 
 # ========== Should not be necessary to make changes below this line ======================
 COURSE_DB = EE_COURSE_DB  # Use the Electrical Engineering course database
 # Remove courses in student_history that are not in the course database like MATH 1113
 student_history = {course for course in student_history if course in COURSE_DB}
 # print("remaining courses after filtering student history:", student_history)   # Debugging
+if NUCLEAR_OPTION:
+    print("\nNuclear Technology Option courses will be included in the scheduling.")
+    # Remove Tech Electives from the course database
+    for key in ["Tech Elective 1", "Tech Elective 2"]:
+        COURSE_DB.pop(key, None)  # Remove existing entries
+    # Add Nuclear Technology Option courses to the course database
+    NUCLEAR_OPTION_COURSES = {
+        "MCEG 3313": (3, "Any", ["MATH 2924", "PHYS 2114"], []),
+        "MCEG 3503": (3, "Any", ["MATH 2924", "CHEM 2124", "PHYS 2114"], []),
+        "MCEG 3512": (2, "Any", ["MCEG 3503"], []),
+        "MCEG 3523": (3, "Any", ["MATH 2914", "CHEM 2124"], []),
+    }
+    COURSE_DB.update(NUCLEAR_OPTION_COURSES)
 
 print("\n" + "=" * 60)
 print("ATU Electrical Engineering - Graduation Pathway Optimizer")
@@ -37,7 +58,9 @@ print(f"   Total Courses in Degree: {len(COURSE_DB)}")
 print(f"   Remaining: {len(COURSE_DB) - len(student_history)} courses\n")
 
 scheduler = Scheduler(course_db=COURSE_DB, max_hours=MAX_HOURS, max_iterations=20)
-optimized_plan = scheduler.generate_schedule(student_history, start_semester_is_fall=FALL_START)
+optimized_plan = scheduler.generate_schedule(
+    student_history, start_semester_is_fall=FALL_START
+)
 print("=" * 60)
 print("GENERATED SCHEDULE")
 print("=" * 60)
@@ -53,3 +76,6 @@ for semester, (courses, hours) in optimized_plan.items():
 print("\n" + "=" * 60)
 print(f"Total Planned Credits: {total_hours} hours")
 print("=" * 60)
+
+from Degree_Flowchart import create_course_flowchart
+create_course_flowchart(COURSE_DB)

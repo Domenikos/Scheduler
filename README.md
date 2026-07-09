@@ -6,7 +6,7 @@
 
 A Python-based graduation pathway optimizer for Arkansas Tech University engineering programs.
 
-The project generates semester-by-semester schedules based on completed coursework, prerequisites, co-requisites, term availability (Fall/Spring), and a configurable credit-hour cap.
+The project generates semester-by-semester schedules based on completed coursework, prerequisites, co-requisites, term availability (Fall/Spring), and a configurable credit-hour cap.  A course degree flowchart can be created with the create_course_flowchart function in the Degree_Flowchart.py file.
 
 ## Why this project is useful
 
@@ -27,8 +27,9 @@ The project generates semester-by-semester schedules based on completed coursewo
 - `Student_EE.py`: Example run for Electrical Engineering.
 - `Student_CMPE.py`: Example run for Computer Engineering.
 - `Student_BME.py`: Example run for Biomedical Option.
+- `Student_EE_Nuc.py`: Example run for Electrical Engineering with Nuclear Technology option.
 
-Can be modified for any major by adding its curriculum database.
+Can be modified for any major by adding its curriculum database.  See EE_COURSE_DB.py file for an example.
 
 ## Getting started
 
@@ -42,6 +43,7 @@ Can be modified for any major by adding its curriculum database.
 ### Prerequisites
 
 - Python 3.10 or newer
+- graphviz for degree flowcharts
 
 ### Installation
 
@@ -62,6 +64,7 @@ Run one of the provided student scenarios:
 python3 Student_EE.py
 python3 Student_CMPE.py
 python3 Student_BME.py
+python3 Student_EE_Nuc.py
 ```
 
 Each script prints:
@@ -98,6 +101,7 @@ for semester, (courses, hours) in plan.items():
 - Review implementation details in `Scheduler.py`.
 - Open an issue in this repository for bugs or feature requests.
 - Share the exact `student_history`, chosen course database, and `max_hours` value when reporting scheduling problems.
+- Include the COURSE_DB file for issues with the Degree_Flowchart
 
 ## Maintainer and contributing
 
