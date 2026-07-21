@@ -54,7 +54,7 @@ git clone <your-repository-url>
 cd Scheduler
 ```
 
-No third-party packages are required.
+No third-party packages are required for the Scheduler.
 
 ### Quick start
 
